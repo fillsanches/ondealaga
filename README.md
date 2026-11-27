@@ -23,6 +23,15 @@ Abra uma issue para relatar um problema, sugerir uma melhoria ou indicar
 uma fonte de dados. Para mudanças no código, envie um pull request e
 vincule a issue correspondente, quando houver.
 
+Antes de enviar um pull request, rode as verificações na raiz do projeto:
+
+```bash
+docker compose run --rm checks
+```
+
+O comando verifica lint, formatação do Python e testes em um contêiner
+temporário. O GitHub Actions também executa essas verificações no PR.
+
 ## Licença
 
 O código é distribuído sob a [licença MIT](LICENSE). Os dados de terceiros
