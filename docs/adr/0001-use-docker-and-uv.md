@@ -6,9 +6,9 @@ Aceito.
 
 ## Contexto
 
-O ambiente de desenvolvimento inicial usa Windows com Zed, e o CI roda em
-Linux. O projeto precisa de um modo reproduzível de subir a API e instalar
-as dependências Python.
+O desenvolvimento começou no Windows com o Zed, e o CI roda em Linux. 
+O projeto precisa de uma forma reproduzível de instalar as dependências Python
+e executar a API em ambientes de desenvolvimento Windows, Linux e macOS.
 
 ## Decisão
 
