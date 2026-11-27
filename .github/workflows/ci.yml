@@ -26,3 +26,9 @@ jobs:
 
       - name: Run tests
         run: uv run --locked python -m pytest -q
+
+      - name: Lint Python
+        run: uv run --locked ruff check .
+
+      - name: Check Python formatting
+        run: uv run --locked ruff format --check .

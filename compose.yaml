@@ -3,3 +3,22 @@ services:
     build: .
     ports:
       - "127.0.0.1:8000:8000"
+
+  checks:
+    image: ghcr.io/astral-sh/uv:0.13.9-python3.13-trixie-slim
+    profiles: [tools]
+    working_dir: /workspace
+    volumes:
+      - .:/workspace:ro
+    environment:
+      UV_PROJECT_ENVIRONMENT: /tmp/onde-alaga-venv
+      RUFF_CACHE_DIR: /tmp/ruff-cache
+      PYTHONDONTWRITEBYTECODE: "1"
+    command:
+      - sh
+      - -c
+      # Windows bind mounts can expose regular files as executable.
+      - >-
+        uv run --locked ruff check --extend-ignore EXE002 . &&
+        uv run --locked ruff format --check . &&
+        uv run --locked python -m pytest -q -o cache_dir=/tmp/pytest-cache
