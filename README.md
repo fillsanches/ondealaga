@@ -51,7 +51,8 @@ docker compose run --rm checks
 ```
 
 O comando verifica lint, formatação do Python e testes em um contêiner
-temporário. O GitHub Actions também executa essas verificações no PR.
+temporário. No PR, o GitHub Actions também executa essas verificações e
+aplica as migrações em um banco PostGIS novo para validar o esquema.
 
 ## Licença
 
