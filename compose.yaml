@@ -3,6 +3,26 @@ services:
     build: .
     ports:
       - "127.0.0.1:8000:8000"
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_DB: onde_alaga
+      POSTGRES_USER: onde_alaga
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-onde_alaga_local}
+
+  db:
+    image: postgis/postgis:18-3.7
+    platform: linux/amd64
+    environment:
+      POSTGRES_DB: onde_alaga
+      POSTGRES_USER: onde_alaga
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-onde_alaga_local}
+    healthcheck:
+      test: ["CMD", "pg_isready", "-h", "127.0.0.1", "-U", "onde_alaga", "-d", "onde_alaga"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    volumes:
+      - postgres_data:/var/lib/postgresql
 
   checks:
     image: ghcr.io/astral-sh/uv:0.13.9-python3.13-trixie-slim
@@ -22,3 +42,6 @@ services:
         uv run --locked ruff check --extend-ignore EXE002 . &&
         uv run --locked ruff format --check . &&
         uv run --locked python -m pytest -q -o cache_dir=/tmp/pytest-cache
+
+volumes:
+  postgres_data:
