@@ -76,6 +76,46 @@ requisito para incluir uma ocorrência nos totais históricos.
 validar o fluxo básico de envio. Usar o M8 para ampliar o fluxo de denúncia
 de erros e acompanhamento das correções.
 
+## Coleta de dados de alagamento com revisão humana
+
+Permitir que um operador autorizado execute uma coleta na hora, agende uma
+execução única ou configure uma recorrência. Cada configuração guarda fuso
+horário, conjunto de cidades, fontes, período pesquisado e modo de
+processamento. O operador pode pausar um agendamento recorrente.
+
+O operador escolhe fontes do catálogo do Onde Alaga ou cadastra referências
+próprias para as quais tem permissão de acesso. A coleta pode usar API
+pública, API com autenticação ou leitura automatizada de páginas autorizadas.
+Para descobrir fontes, o operador pode configurar uma consulta como
+`onde alaga em {cidade}`. Cada localidade cadastrada gera uma consulta com
+nome, divisão administrativa e país quando necessário para desambiguação.
+Os resultados da busca passam pelo mesmo controle de fontes antes da coleta.
+
+Oferecer dois modos: guardar o resultado bruto temporariamente para inspeção
+ou encaminhá-lo ao provedor de IA selecionado. No modo com IA, preservar a
+referência ao material original para revisão. A extração propõe ocorrências
+com localidade, tipo, data e precisão geográfica conhecidas, acompanhadas de
+URL e trecho de evidência. Campos desconhecidos ficam vazios. Propor cobertura
+somente quando a referência documentar o intervalo consultado.
+
+Exibir o andamento e o resultado da execução: horário, etapa, fontes
+processadas, candidatos, falhas por fonte e consumo estimado de IA quando
+disponível. Permitir reprocessar uma etapa com o bruto ainda disponível e
+interromper o trabalho pendente, preservando os resultados já concluídos.
+
+Na revisão, mostrar a proposta ao lado da evidência. O revisor autorizado
+pode corrigir, rejeitar, vincular a uma ocorrência existente ou aprovar
+individualmente ou em lote. A aprovação em lote mostra o conjunto selecionado,
+valida cada item e informa os aprovados e os que exigem revisão. Registrar
+quem decidiu, quando, a origem do material e o motivo da decisão. Apenas a
+aprovação editorial pode inserir ou atualizar ocorrências públicas.
+
+**Entrega:** no M6, começar com uma fonte estruturada, execução manual,
+extração com Gemini e a revisão editorial do M2. Depois, adicionar
+agendamentos, outros conectores e revisão em lote. Avaliar RAG no M11 a
+partir das falhas observadas na extração. A [proposta de arquitetura da
+coleta](adr/0004-design-reviewed-ingestion.md) detalha as responsabilidades.
+
 ## Banners para financiar a operação
 
 Reservar espaços no layout para banners publicitários. A receita desses
