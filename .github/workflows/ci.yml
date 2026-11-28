@@ -32,3 +32,13 @@ jobs:
 
       - name: Check Python formatting
         run: uv run --locked ruff format --check .
+
+      - name: Start API and PostGIS
+        run: docker compose up -d --build --wait --wait-timeout 90
+
+      - name: Verify database migrations
+        run: |
+          docker compose exec -T api uv run --locked --no-dev alembic upgrade head
+          docker compose exec -T api uv run --locked --no-dev alembic current --check-heads
+          docker compose exec -T db psql -U onde_alaga -d onde_alaga -v ON_ERROR_STOP=1 \
+            -c 'SELECT PostGIS_Version();'

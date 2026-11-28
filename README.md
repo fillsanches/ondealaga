@@ -11,11 +11,32 @@ ocorrências por local e período, com links para as fontes originais.
 Requisitos: Docker com Compose.
 
 ```bash
-docker compose up --build
+docker compose up -d --build --wait
 ```
 
-A API estará disponível em `http://localhost:8000`.
+O comando inicia a API e o PostgreSQL com PostGIS em segundo plano e
+aguarda a checagem de prontidão do banco. A API estará disponível em
+`http://localhost:8000`.
 O endpoint `GET /healthz` retorna `{"status":"ok"}`.
+
+### Banco de desenvolvimento
+
+Com os serviços em execução, confira a extensão PostGIS no banco:
+
+```bash
+docker compose exec db psql -U onde_alaga -d onde_alaga -c "SELECT PostGIS_Version();"
+```
+
+O banco usa um volume persistente e fica na rede interna do Compose. A
+imagem do PostGIS é `linux/amd64`. Em máquinas ARM, o Docker precisa de
+suporte à emulação dessa arquitetura.
+
+Com os serviços em execução, aplique as migrações e confira a revisão:
+
+```bash
+docker compose exec api uv run --locked --no-dev alembic upgrade head
+docker compose exec api uv run --locked --no-dev alembic current
+```
 
 ## Contribuir
 
@@ -30,7 +51,8 @@ docker compose run --rm checks
 ```
 
 O comando verifica lint, formatação do Python e testes em um contêiner
-temporário. O GitHub Actions também executa essas verificações no PR.
+temporário. No PR, o GitHub Actions também executa essas verificações e
+aplica as migrações em um banco PostGIS novo para validar o esquema.
 
 ## Licença
 
