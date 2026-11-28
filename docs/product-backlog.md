@@ -1,5 +1,81 @@
 # Backlog de produto
 
+## Consulta de ocorrências e histórico no mapa
+
+Na home, tentar identificar a cidade. Se houver apenas o estado, abrir o
+mapa da capital. Se nenhum dos dois estiver disponível, abrir o mapa do
+Brasil. Manter a busca manual por cidade disponível em todos os níveis.
+
+- **Brasil:** exibir o total de ocorrências registradas por estado.
+- **Estado:** exibir o total por cidade.
+- **Cidade:** exibir totais por área ou agrupamento de pontos. Ao aproximar,
+  mostrar as ocorrências com data, evidências e precisão geográfica.
+  Registros sem posição detalhada entram no total e ficam acessíveis em lista.
+
+Abrir no ano atual e manter o filtro de ano ou mês ao mudar de nível. Contar
+ocorrências verificadas pela data do evento, uma vez por ocorrência, mesmo
+quando sustentadas por várias fontes ou relatos. Se só o ano for conhecido,
+contar no ano e informar que o mês é desconhecido.
+
+Exibir a cobertura conhecida das fontes no período. Distinguir entre
+período sem cobertura conhecida, período parcialmente coberto e período
+coberto sem ocorrências encontradas nas fontes consultadas. Exibir a data
+de referência quando a consulta do período corrente usar apenas os dias
+já transcorridos.
+
+Oferecer uma camada de áreas com histórico, com a última ocorrência
+registrada. Uma ocorrência continua disponível nessa camada nos anos
+seguintes e entra apenas no total do período em que ocorreu. Relatos sobre
+obras ou mudanças de condição podem gerar uma atualização datada e com
+fonte após revisão, preservando o evento original.
+
+Exibir mapas técnicos de perigo ou risco em camada própria, quando
+disponíveis, com órgão, data e legenda. Exibir probabilidades somente quando
+houver estudo aplicável ao local e ao fenômeno, com cenário, período e fonte.
+
+**Entrega:** registrar cobertura no M1 e aplicar essas regras de navegação
+e exibição no M3.
+
+## Relatos de alagamento enviados pela comunidade
+
+Permitir o envio manual por usuários, com cidade, data na precisão conhecida,
+descrição e alcance informado. Aceitar número de endereço, trecho da rua, rua
+com trecho desconhecido ou rua inteira explicitamente indicada. Mostrar a
+precisão disponível e exigir revisão antes de representar toda a extensão
+de uma rua como atingida. Conservar a referência textual se a posição
+espacial ainda não puder ser validada.
+
+Aceitar fotos, vídeos, boletins e links como evidência opcional. Remover
+metadados dos arquivos publicados e permitir ocultar rostos e placas.
+Após triagem, apresentar na camada comunitária os apontamentos sem
+comprovação, os relatos com evidência aguardando análise e os casos em
+revisão. Exibir ocorrências verificadas após decisão editorial registrada.
+Se vários relatos descreverem o mesmo evento, vincular as contribuições a
+uma única ocorrência e preservar as evidências e a autoria de cada relato.
+
+**Entrega:** aproveitar a revisão editorial do M2. Iniciar a colaboração
+no M7 com formulário, evidências, triagem e publicação.
+
+## Confirmações, contestações e reputação
+
+Permitir confirmar ou contestar um relato, com um voto editável por conta
+e por relato. Pedir motivo para contestar e aceitar comentários ou novas
+evidências. Uma contestação fundamentada pode reabrir a revisão. Registrar
+as decisões editoriais e os motivos para que possam ser consultados.
+
+Usar a pontuação interna para priorizar a revisão. Dar prioridade a
+evidências que sustentem local e data e a confirmações independentes.
+Tratar anexos repetidos como uma única evidência e dar peso limitado à
+reputação do autor. A reputação cresce com contribuições avaliadas como
+úteis, como correções, evidências e identificação de duplicidades. Um
+usuário novo pode ter seu relato verificado se houver evidência suficiente.
+Exibir os motivos da verificação, mantendo a decisão editorial como
+requisito para incluir uma ocorrência nos totais históricos.
+
+**Entrega:** adicionar votos, comentários e reputação no M7 depois de
+validar o fluxo básico de envio. Usar o M8 para ampliar o fluxo de denúncia
+de erros e acompanhamento das correções.
+
 ## Banners para financiar a operação
 
 Reservar espaços no layout para banners publicitários. A receita desses

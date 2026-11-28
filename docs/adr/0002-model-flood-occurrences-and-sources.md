@@ -64,6 +64,21 @@ como um boletim da prefeitura e uma reportagem sobre o mesmo alagamento.
 A mesma fonte e URL identificam uma única evidência para cada ocorrência.
 Uma publicação pode ser vinculada a mais de uma ocorrência.
 
+### Cobertura da fonte (`SourceCoverage`)
+
+Intervalo de dias, com início e fim inclusivos, que uma referência documenta
+para uma fonte e uma localidade. Registrar a referência mesmo quando ela
+informa zero ocorrências. Permitir vários intervalos por fonte e localidade,
+inclusive sobrepostos ou descontínuos. A cobertura vem do alcance declarado
+na referência. Relatos pontuais, por si sós, documentam ocorrências.
+
+Para classificar a cobertura de uma consulta, considerar a união dos
+intervalos das fontes relevantes para aquela localidade, limitada às datas
+consultadas. Classificar como total se todos os dias forem cobertos, parcial
+se houver dias cobertos e lacunas, e desconhecida se não houver interseção
+com os intervalos conhecidos. Cobertura descreve as fontes disponíveis.
+Um resultado vazio se refere às ocorrências encontradas nessas fontes.
+
 ## Consequências
 
 Os vínculos das ocorrências usam o identificador interno da localidade. Para
