@@ -19,6 +19,9 @@ e usar `uv sync --locked --no-dev` na imagem da API.
 ## Consequências
 
 O comando geral do Compose inicia a API e o banco de desenvolvimento
-definido no ADR 0002. O build falha se o lockfile estiver fora de
-sincronia com o `pyproject.toml`. Alterações de dependências exigem
-atualizar os dois arquivos no mesmo PR.
+definido no ADR 0002. No ambiente local, a API é iniciada após a aplicação
+das migrações pendentes. O serviço `checks` usa um PostGIS separado com
+armazenamento temporário para verificar as migrações e rodar os testes.
+O build falha se o lockfile estiver fora de sincronia com o
+`pyproject.toml`. Alterações de dependências exigem atualizar os dois
+arquivos no mesmo PR.
