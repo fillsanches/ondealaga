@@ -22,6 +22,19 @@ O banco usa um volume persistente e fica na rede interna do Compose. A
 imagem do PostGIS é `linux/amd64`. Em máquinas ARM, o Docker precisa de
 suporte à emulação dessa arquitetura.
 
+### Enviar uma proposta para revisão
+
+Com o Compose em execução, use o comando interno abaixo com os IDs de uma
+localidade e de uma fonte já cadastradas no banco de desenvolvimento:
+
+```bash
+docker compose exec api .venv/bin/python -m app.submit_proposal --locality-id 1 --event-type flood --year 2026 --month 3 --evidence 1 https://example.org/boletim
+```
+
+Informe apenas os componentes de data conhecidos. A opção `--evidence`
+pode ser omitida ou repetida para acrescentar evidências. O comando salva
+a proposta como pendente e imprime seu identificador.
+
 ## Contribuir
 
 Abra uma issue para relatar um problema, sugerir uma melhoria ou indicar

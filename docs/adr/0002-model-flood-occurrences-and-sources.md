@@ -79,6 +79,14 @@ se houver dias cobertos e lacunas, e desconhecida se não houver interseção
 com os intervalos conhecidos. Cobertura descreve as fontes disponíveis.
 Um resultado vazio se refere às ocorrências encontradas nessas fontes.
 
+### Proposta de ocorrência (`OccurrenceProposal`)
+
+As propostas editoriais ficam em `occurrence_proposals`, com evidências
+opcionais em `proposal_evidence`. A proposta começa como pendente e
+preserva a mesma precisão de data prevista para a ocorrência. O cadastro da
+proposta e das evidências usa uma única transação. As ocorrências públicas
+continuam em `occurrences`.
+
 ## Consequências
 
 Os vínculos das ocorrências usam o identificador interno da localidade. Para
