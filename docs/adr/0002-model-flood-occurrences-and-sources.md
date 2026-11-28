@@ -45,6 +45,10 @@ Evento registrado, como um alagamento. Guarda o tipo do evento, a localidade,
 a data da ocorrência e a localização, com a precisão disponível. Se a fonte
 informa apenas mês e ano, o evento pode aparecer nas consultas mensais e
 anuais. A busca por um dia específico exige que o dia seja conhecido.
+O banco guarda ano, mês e dia em campos próprios e mantém os componentes
+desconhecidos vazios. A localização pode ser um ponto ou uma área, com
+precisão exata ou aproximada. Quando só houver uma referência descritiva,
+como o nome de um bairro, podemos guardá-la sem atribuir coordenadas.
 
 ### Fonte (`Source`)
 
@@ -57,6 +61,8 @@ Publicação ou registro que sustenta uma ocorrência. Guarda a fonte, a URL
 original e a data de publicação, quando conhecida. A data de publicação é
 independente da data do evento. Uma ocorrência pode reunir várias evidências,
 como um boletim da prefeitura e uma reportagem sobre o mesmo alagamento.
+A mesma fonte e URL identificam uma única evidência para cada ocorrência.
+Uma publicação pode ser vinculada a mais de uma ocorrência.
 
 ## Consequências
 
