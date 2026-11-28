@@ -1,28 +1,53 @@
+x-postgres: &postgres
+  image: postgis/postgis:18-3.7
+  platform: linux/amd64
+  environment: &database-credentials
+    POSTGRES_DB: onde_alaga
+    POSTGRES_USER: onde_alaga
+    POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-onde_alaga_local}
+  healthcheck:
+    test: ["CMD", "pg_isready", "-h", "127.0.0.1", "-U", "onde_alaga", "-d", "onde_alaga"]
+    interval: 5s
+    timeout: 3s
+    retries: 12
+
 services:
   api:
     build: .
     ports:
       - "127.0.0.1:8000:8000"
     environment:
+      <<: *database-credentials
       POSTGRES_HOST: db
-      POSTGRES_DB: onde_alaga
-      POSTGRES_USER: onde_alaga
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-onde_alaga_local}
+    depends_on:
+      db:
+        condition: service_healthy
+    command:
+      - sh
+      - -c
+      - >-
+        uv run --locked --no-dev alembic upgrade head &&
+        exec .venv/bin/python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
+    healthcheck:
+      test:
+        - CMD
+        - .venv/bin/python
+        - -c
+        - import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/healthz', timeout=2).close()
+      interval: 2s
+      timeout: 3s
+      retries: 30
 
   db:
-    image: postgis/postgis:18-3.7
-    platform: linux/amd64
-    environment:
-      POSTGRES_DB: onde_alaga
-      POSTGRES_USER: onde_alaga
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-onde_alaga_local}
-    healthcheck:
-      test: ["CMD", "pg_isready", "-h", "127.0.0.1", "-U", "onde_alaga", "-d", "onde_alaga"]
-      interval: 5s
-      timeout: 3s
-      retries: 12
+    <<: *postgres
     volumes:
       - postgres_data:/var/lib/postgresql
+
+  checks-db:
+    <<: *postgres
+    profiles: [tools]
+    tmpfs:
+      - /var/lib/postgresql
 
   checks:
     image: ghcr.io/astral-sh/uv:0.13.9-python3.13-trixie-slim
@@ -31,16 +56,27 @@ services:
     volumes:
       - .:/workspace:ro
     environment:
+      <<: *database-credentials
+      POSTGRES_HOST: checks-db
       UV_PROJECT_ENVIRONMENT: /tmp/onde-alaga-venv
       RUFF_CACHE_DIR: /tmp/ruff-cache
       PYTHONDONTWRITEBYTECODE: "1"
+    depends_on:
+      checks-db:
+        condition: service_healthy
     command:
       - sh
-      - -c
+      - -ec
       # Windows bind mounts can expose regular files as executable.
-      - >-
-        uv run --locked ruff check --extend-ignore EXE002 . &&
-        uv run --locked ruff format --check . &&
+      - |
+        if [ "$${CI:-}" = true ]; then
+          uv run --locked ruff check .
+        else
+          uv run --locked ruff check --extend-ignore EXE002 .
+        fi
+        uv run --locked ruff format --check .
+        uv run --locked alembic upgrade head
+        uv run --locked alembic current --check-heads
         uv run --locked python -m pytest -q -o cache_dir=/tmp/pytest-cache
 
 volumes:
